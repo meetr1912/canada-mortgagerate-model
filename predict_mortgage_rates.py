@@ -434,6 +434,33 @@ def plot_feature_importance_rf_gb(model, feature_names, model_name):
     else:
         print(f"{model_name} does not have feature importances to plot.")
 
+def plot_forecast(train_data, test_data, forecast_df, conf_int, model_name):
+    """
+    Plot the actual vs forecasted mortgage rates.
+
+    Parameters:
+    - train_data (pd.DataFrame): Training DataFrame.
+    - test_data (pd.DataFrame): Testing DataFrame.
+    - forecast_df (pd.Series): Forecasted mortgage rates.
+    - conf_int (pd.DataFrame): Confidence intervals for the forecast.
+    - model_name (str): Name of the model used for forecasting.
+
+    Returns:
+    - None
+    """
+    plt.figure(figsize=(12, 6))
+    plt.plot(train_data.index, train_data['mortgage_rate'], label='Training')
+    plt.plot(test_data.index, test_data['mortgage_rate'], label='Actual', color='blue')
+    plt.plot(forecast_df.index, forecast_df, label=f'{model_name} Forecast', color='red')
+    if conf_int is not None:
+        plt.fill_between(conf_int.index, conf_int.iloc[:, 0], conf_int.iloc[:, 1], color='pink', alpha=0.3)
+    plt.xlabel('Date')
+    plt.ylabel('5-Year Fixed Mortgage Rate (%)')
+    plt.title(f'Mortgage Rate Forecast using {model_name}')
+    plt.legend()
+    plt.savefig(f'images/{model_name.lower()}_forecast.png')
+    plt.show()
+
 def main():
     # Ensure the images directory exists
     os.makedirs('images', exist_ok=True)
