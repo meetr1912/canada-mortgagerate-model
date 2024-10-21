@@ -152,6 +152,22 @@ def plot_historical_trends(df):
     plt.savefig('images/historical_trends.png')
     plt.show()
 
+def calculate_correlation(df):
+    """
+    Calculate and print the correlation coefficient between the prime rate and the 5-year fixed mortgage rate.
+
+    Parameters:
+    - df (pd.DataFrame): DataFrame containing the data.
+
+    Returns:
+    - None
+    """
+    if 'V80691311' in df.columns and 'mortgage_rate' in df.columns:
+        correlation = df['V80691311'].corr(df['mortgage_rate'])
+        print(f"\nCorrelation between Prime Rate and 5-Year Fixed Mortgage Rate: {correlation:.4f}")
+    else:
+        print("\nRequired columns for correlation calculation are missing.")
+
 def train_sarima_model(train_data):
     """
     Train a SARIMA model on the training data.
@@ -454,6 +470,9 @@ def main():
     # Plot historical trends
     print("\nPlotting Historical Trends...")
     plot_historical_trends(merged_df)
+
+    # Calculate and print correlation coefficient
+    calculate_correlation(merged_df)
 
     # Split the data into training and testing sets
     train = merged_df.iloc[:-24]  # Use all data except the last 24 months for training
