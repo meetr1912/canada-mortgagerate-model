@@ -13,7 +13,7 @@ from sklearn.svm import SVR
 from sklearn.preprocessing import MinMaxScaler
 from keras.models import Sequential
 from keras.layers import LSTM, Dense, Dropout
-from fbprophet import Prophet
+from prophet import Prophet
 from pandas_datareader import data as pdr
 import os
 import warnings
